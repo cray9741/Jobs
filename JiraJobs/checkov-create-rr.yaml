@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: checkov-rr
+spec:
+  ttlSecondsAfterFinished: 30
+  template:
+    spec:
+      serviceAccountName: your-service-account-name
+      containers:
+      - name: checkov-rr
+        image: tray3rd/checkovrr:latest
+        imagePullPolicy: Always
+        env:
+          - name: AWS_REGION
+            value: "us-east-1"
+          - name: JIRA_URL
+            valueFrom:
+              secretKeyRef:
+                name: jira-secret
+                key: JIRA_URL
+          - name: JIRA_USER
+            valueFrom:
+              secretKeyRef:
+                name: jira-secret
+                key: JIRA_USER
+          - name: JIRA_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: jira-secret
+                key: JIRA_API_KEY
+        command: ["python", "entrypoint.py"]
+      restartPolicy: Never
+  backoffLimit: 4

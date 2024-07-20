@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: trufflehog-push
+spec:
+  template:
+    spec:
+      containers: tray3rd/trufflehogdojo:latest
+      - name: trufflehog-push
+        image:   # Replace with your Docker image name
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: "us-east-1"
+        - name: AWS_REGION
+          value: "us-east-1"
+        - name: DOJO_API_KEY  # This environment variable will be populated by SSM
+          valueFrom:
+            secretKeyRef:
+              name: dojo-secret
+              key: DOJO_API_KEY
+        - name: DOJO_URL  # This environment variable will be populated by SSM
+          valueFrom:
+            secretKeyRef:
+              name: dojo-secret
+              key: DOJO_URL
+        command: ["python"]
+        args: ["entrypoint.py"]
+      restartPolicy: Never
