@@ -1,20 +1,20 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: checkov-scan-s3-upload-job
+  name: trufflehog-scan-s3-upload-job
 spec:
   ttlSecondsAfterFinished: 30
   template:
     spec:
       serviceAccountName: scan-account
       containers:
-      - name: checkov-scan-s3-upload-container
-        image: tray3rd/checkov-scan-s3-upload:latest
+      - name: trufflehog-scan-s3-upload-container
+        image: tray3rd/trufflehog-scan-s3-upload:latest
         env:
         - name: S3_BUCKET
           value: "sec-tooling-backend-tools-results-87238225"
         - name: S3_FOLDER
-          value: "checkov"
+          value: "trufflehog"
         - name: AWS_DEFAULT_REGION
           value: "us-east-1"
         - name: SEARCH_DIRECTORY
