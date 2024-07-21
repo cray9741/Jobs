@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: checkov-scan-s3-upload-job
+spec:
+  template:
+    spec:
+      serviceAccountName: scan-account
+      containers:
+      - name: checkov-scan-s3-upload-container
+        image: tray3rd/checkov-scan-s3-upload:latest
+        env:
+        - name: S3_BUCKET
+          value: "sec-tooling-backend-tools-results-87238225"
+        - name: S3_FOLDER
+          value: "checkov"
+        - name: AWS_DEFAULT_REGION
+          value: "us-east-1"
+        - name: SEARCH_DIRECTORY
+          value: "/output"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+      restartPolicy: Never
+  backoffLimit: 4
