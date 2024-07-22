@@ -6,6 +6,7 @@ spec:
   ttlSecondsAfterFinished: 30
   template:
     spec:
+      serviceAccountName: scan-account 
       containers:
       - name: trivy-rr
         image: tray3rd/trivyrr:latest

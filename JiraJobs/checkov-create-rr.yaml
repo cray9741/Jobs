@@ -6,7 +6,7 @@ spec:
   ttlSecondsAfterFinished: 30
   template:
     spec:
-      serviceAccountName: your-service-account-name
+      serviceAccountName: scan-account 
       containers:
       - name: checkov-rr
         image: tray3rd/checkovrr:latest

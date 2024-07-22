@@ -5,24 +5,26 @@ metadata:
 spec:
   template:
     spec:
-      containers: tray3rd/kubescapedojo:latest
-      - name: kubescape-push
-        image:   # Replace with your Docker image name
-        env:
-        - name: AWS_DEFAULT_REGION
-          value: "us-east-1"
-        - name: AWS_REGION
-          value: "us-east-1"
-        - name: DOJO_API_KEY  # This environment variable will be populated by SSM
-          valueFrom:
-            secretKeyRef:
-              name: dojo-secret
-              key: DOJO_API_KEY
-        - name: DOJO_URL  # This environment variable will be populated by SSM
-          valueFrom:
-            secretKeyRef:
-              name: dojo-secret
-              key: DOJO_URL
-        command: ["python"]
-        args: ["entrypoint.py"]
+      ttlSecondsAfterFinished: 30
+      serviceAccountName: scan-account
+      containers:
+        - name: kubescape-push
+          image: tray3rd/kubescapedojo:latest  # Replace with your Docker image name
+          env:
+            - name: AWS_DEFAULT_REGION
+              value: "us-east-1"
+            - name: AWS_REGION
+              value: "us-east-1"
+            - name: DOJO_API_KEY  # This environment variable will be populated by SSM
+              valueFrom:
+                secretKeyRef:
+                  name: dojo-secret
+                  key: DOJO_API_KEY
+            - name: DOJO_URL  # This environment variable will be populated by SSM
+              valueFrom:
+                secretKeyRef:
+                  name: dojo-secret
+                  key: DOJO_URL
+          command: ["python"]
+          args: ["entrypoint.py"]
       restartPolicy: Never

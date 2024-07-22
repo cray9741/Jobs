@@ -9,7 +9,7 @@ spec:
       serviceAccountName: scan-account
       containers:
       - name: zaproxy-scan-s3-upload-container
-        image: tray3rd/zaproxy-scan-s3-upload:latest
+        image: tray3rd/zaproxy-scan-s3-upload:latest  # Use your built Docker image
         env:
         - name: S3_BUCKET
           value: "sec-tooling-backend-tools-results-87238225"
@@ -17,8 +17,6 @@ spec:
           value: "zaproxy"
         - name: AWS_DEFAULT_REGION
           value: "us-east-1"
-        - name: SEARCH_DIRECTORY
-          value: "/zap/output"
         resources:
           requests:
             memory: "2Gi"
