@@ -1,15 +1,15 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: zaproxy-rr
+  name: trufflehog-rr
 spec:
   ttlSecondsAfterFinished: 30
   template:
     spec:
       serviceAccountName: scan-account 
       containers:
-      - name: zaproxy-rr
-        image: tray3rd/zaproxyrr:latest
+      - name: trufflehog-rr
+        image: tray3rd/trufflehogrr:latest
         imagePullPolicy: Always
         env:
           - name: AWS_REGION

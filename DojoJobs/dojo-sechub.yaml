@@ -1,14 +1,15 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: dependabot-push
+  name: sechub-push
 spec:
   template:
     spec:
+      ttlSecondsAfterFinished: 30
       serviceAccountName: scan-account
       containers:
-        - name: dependabot-push
-          image: tray3rd/dependabotdojo:latest  # Replace with your Docker image name
+        - name: sechub-push
+          image: tray3rd/sechubdojo:latest   # Replace with your Docker image name
           env:
             - name: AWS_DEFAULT_REGION
               value: "us-east-1"
@@ -19,14 +20,11 @@ spec:
                 secretKeyRef:
                   name: dojo-secret
                   key: DOJO_API_KEY
-            - name: GITHUB_API_KEY  # This environment variable will be populated by SSM
-              valueFrom:
-                secretKeyRef:
-                  name: dependabot-secret
-                  key: GITHUB_API_KEY 
             - name: DOJO_URL  # This environment variable will be populated by SSM
               valueFrom:
                 secretKeyRef:
                   name: dojo-secret
                   key: DOJO_URL
+          command: ["python"]
+          args: ["entrypoint.py"]
       restartPolicy: Never
