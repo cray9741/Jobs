@@ -1,12 +1,12 @@
 name: Deploy-to-EKS
 
 on:
- 
-  push:
-    branches: [ main ]
+  workflow_dispatch:
+#   push:
+#     branches: [ main ]
 
 env:
-  EKS_CLUSTER_NAME: Kubernetes-demo 
+  EKS_CLUSTER_NAME: legion-nonprod 
   AWS_REGION: us-east-1
 
 jobs:
